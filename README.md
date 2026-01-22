@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🧠 ConsciencIA
 
-## Getting Started
+Tecnologia inteligente para clínicas de fisioterapia que buscam mais organização e menos burocracia.
 
-First, run the development server:
+📋 Sobre o Projeto
 
-```bash
+O ConsciencIA é um SaaS (Software as a Service) focado na gestão de clínicas de fisioterapia. O objetivo é eliminar o uso de papel e planilhas complexas, oferecendo uma solução simples para agendamento, prontuário eletrônico e gestão financeira.
+
+Atualmente, o projeto consiste em uma Landing Page de Alta Conversão integrada a um sistema de Lista de Espera que salva os leads diretamente em um banco de dados na nuvem.
+
+🚀 Tecnologias Utilizadas
+
+O projeto foi desenvolvido utilizando as tecnologias mais modernas do ecossistema JavaScript:
+
+Frontend: React & Next.js 14 (App Router)
+
+Estilização: Tailwind CSS
+
+Ícones: Lucide React
+
+Backend: Next.js API Routes
+
+Banco de Dados: PostgreSQL (Hospedado na Neon.tech)
+
+ORM: Prisma
+
+✨ Funcionalidades Atuais
+
+[x] Landing Page Responsiva (Mobile & Desktop).
+
+[x] Seções de apresentação (Hero, Problema, Solução, Prova Social).
+
+[x] Formulário de Captura de Leads (Lista de Espera).
+
+[x] Integração Backend com Banco de Dados PostgreSQL.
+
+[x] Validação de dados e tratamento de erros.
+
+📦 Como rodar o projeto localmente
+
+Siga estes passos para rodar o projeto na sua máquina:
+
+1. Clone o repositório
+
+git clone [https://github.com/William-0710/consciencia-saas.git](https://github.com/William-0710/consciencia-saas.git)
+cd consciencia-saas
+
+
+2. Instale as dependências
+
+npm install
+
+
+3. Configure as Variáveis de Ambiente
+
+Crie um arquivo .env na raiz do projeto e adicione a URL do seu banco de dados (Ex: Neon, Supabase ou Local):
+
+DATABASE_URL="postgresql://usuario:senha@host/banco?sslmode=require"
+
+
+4. Configure o Banco de Dados
+
+Gere o cliente do Prisma e envie a estrutura para o banco:
+
+npx prisma generate
+npx prisma db push
+
+
+5. Inicie o servidor
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Acesse http://localhost:3000 no seu navegador.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+📂 Estrutura de Pastas
 
-## Learn More
+consciencia-saas/
+├── prisma/             # Schema do Banco de Dados
+├── public/             # Arquivos estáticos
+├── src/
+│   ├── app/
+│   │   ├── api/        # Rotas da API (Backend)
+│   │   ├── page.tsx    # Página Principal (Landing Page)
+│   │   └── layout.tsx  # Layout Global
+│   └── components/     # Componentes Reutilizáveis (Se houver)
+└── package.json
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+🤝 Contribuição
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um Pull Request.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Desenvolvido por William 🚀
