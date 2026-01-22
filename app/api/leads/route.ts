@@ -1,18 +1,11 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
-// -----------------------------------------------------------------------
-// DICA: Se o erro persistir, tente fechar e reabrir o VS Code.
-// Se o comando 'npm run dev' funcionar no terminal, você pode ignorar
-// o sublinhado vermelho (é apenas um bug visual do editor).
-// -----------------------------------------------------------------------
-
+// --- CONFIGURAÇÃO DO PRISMA CLIENT ---
 const prismaClientSingleton = () => {
   return new PrismaClient()
 }
 
-// Essa sintaxe 'declare global' ajuda o VS Code a entender melhor
-// que a variável 'prisma' existe no escopo global.
 declare global {
   var prisma: undefined | ReturnType<typeof prismaClientSingleton>
 }
@@ -23,9 +16,24 @@ if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma
 
 export async function POST(request: Request) {
   try {
+    // --- ÁREA DE DEBUG (O Espião) ---
+    const dbUrl = process.env.DATABASE_URL;
+    console.log("--- INÍCIO DO DEBUG ---");
+    
+    if (!dbUrl) {
+      console.error("ERRO GRAVE: DATABASE_URL não existe ou está vazia!");
+    } else {
+      // Mostra os primeiros 15 caracteres para vermos se tem aspas ou espaços
+      // Exemplo esperado: "postgresql://ne..."
+      // Exemplo com erro: " postgresql:/..." (espaço) ou "\"postgresql:..." (aspa)
+      console.log(`O servidor está lendo: [${dbUrl.substring(0, 15)}...]`);
+      console.log(`Tamanho total da string: ${dbUrl.length}`);
+    }
+    console.log("--- FIM DO DEBUG ---");
+    // -------------------------------
+
     const body = await request.json();
 
-    // Validação básica
     if (!body.nome || !body.email || !body.whatsapp) {
       return NextResponse.json(
         { error: 'Campos obrigatórios faltando' },
@@ -33,7 +41,6 @@ export async function POST(request: Request) {
       );
     }
     
-    // Salvar no banco
     const lead = await prisma.lead.create({
       data: {
         nome: body.nome,
@@ -45,9 +52,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json(lead, { status: 201 });
   } catch (error) {
-    console.error('Erro ao salvar lead:', error);
+    console.error('Erro DETALHADO ao salvar lead:', error);
     return NextResponse.json(
-      { error: 'Erro ao processar sua solicitação.' }, 
+      { error: 'Erro ao processar sua solicitação. Verifique os logs.' }, 
       { status: 500 }
     );
   }
