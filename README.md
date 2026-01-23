@@ -71,7 +71,7 @@ npx prisma db push
 npm run dev
 
 
-Acesse http://localhost:3000 no seu navegador.
+Acesse ( https://consciencia-saas.vercel.app ) no seu navegador.
 
 📂 Estrutura de Pastas
 
