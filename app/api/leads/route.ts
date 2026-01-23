@@ -16,6 +16,8 @@ const prisma = globalThis.prisma ?? prismaClientSingleton()
 if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma
 
 export async function POST(request: Request) {
+    console.log("DATABASE_URL:", process.env.DATABASE_URL);
+    
   try {
     // --- CÓDIGO DE DEBUG TEMPORÁRIO (O Espião) ---
     // Isso vai mostrar nos logs da Vercel o que exatamente está no começo da sua senha.
