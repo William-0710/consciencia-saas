@@ -1,20 +1,57 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+// --- LANDING PAGE (Mantido) ---
+model Lead {
+  id        String   @id @default(cuid())
+  nome      String
+  clinica   String?
+  whatsapp  String
+  email     String   @unique
+  createdAt DateTime @default(now())
 }
 
-model Lead {
-  id        String   @id @default(uuid())
-  nome      String
-  clinica   String
-  whatsapp  String
-  email     String
+// --- SISTEMA SAAS (Novas Tabelas) ---
+
+// A Clínica (Tenant) - O "Apartamento"
+model Clinic {
+  id        String   @id @default(cuid())
+  name      String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users     User[]
+  patients  Patient[]
+}
+
+// O Usuário (Fisioterapeuta) - Quem mora no apartamento
+model User {
+  id        String   @id // Usaremos o ID do Clerk aqui (user_2n...)
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+
+  // Relação: Usuário pertence a uma Clínica
+  clinicId  String?
+  clinic    Clinic?  @relation(fields: [clinicId], references: [id])
+}
+
+// Os Pacientes - Os móveis do apartamento
+model Patient {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  cpf       String?
+  birthDate DateTime?
+  createdAt DateTime @default(now())
+
+  // Relação: Paciente pertence a uma Clínica (Isso protege os dados!)
+  clinicId  String
+  clinic    Clinic   @relation(fields: [clinicId], references: [id])
 }

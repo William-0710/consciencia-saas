@@ -1,20 +1,23 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
+// Importações do Clerk para controlar o que aparece na tela
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { 
   Calendar, 
   CheckCircle, 
   Clock, 
   XCircle, 
   Users, 
-  ShieldCheck, 
   Menu, 
   X, 
   ChevronRight, 
   Database, 
   Lock,
   Smartphone,
-  Activity
+  Activity,
+  ShieldCheck
 } from 'lucide-react';
 
 // --- Componentes ---
@@ -34,12 +37,38 @@ const Navbar = ({ scrollToForm }: { scrollToForm: () => void }) => {
         <div className="hidden md:flex items-center gap-8">
           <a href="#solucao" className="text-gray-600 hover:text-teal-600 font-medium transition">Solução</a>
           <a href="#como-funciona" className="text-gray-600 hover:text-teal-600 font-medium transition">Como Funciona</a>
-          <button 
-            onClick={scrollToForm}
-            className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-full font-semibold transition shadow-lg shadow-teal-600/20"
-          >
-            Lista de Espera
-          </button>
+          
+          {/* ÁREA DE LOGIN INTELIGENTE */}
+          <div className="flex items-center gap-4">
+            
+            {/* Aparece apenas se estiver DESLOGADO */}
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="text-gray-600 hover:text-teal-600 font-medium px-4 py-2">
+                  Entrar
+                </button>
+              </SignInButton>
+              <button 
+                onClick={scrollToForm}
+                className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-full font-semibold transition shadow-lg shadow-teal-600/20"
+              >
+                Lista de Espera
+              </button>
+            </SignedOut>
+
+            {/* Aparece apenas se estiver LOGADO */}
+            <SignedIn>
+              <Link 
+                href="/dashboard"
+                className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-full font-semibold transition shadow-lg"
+              >
+                Acessar Dashboard
+              </Link>
+              {/* Botão de perfil do usuário (Sair, Configurações) */}
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
@@ -53,12 +82,31 @@ const Navbar = ({ scrollToForm }: { scrollToForm: () => void }) => {
         <div className="md:hidden bg-white border-t p-4 flex flex-col gap-4 shadow-lg">
           <a href="#solucao" className="text-gray-600 py-2" onClick={() => setIsMenuOpen(false)}>Solução</a>
           <a href="#como-funciona" className="text-gray-600 py-2" onClick={() => setIsMenuOpen(false)}>Como Funciona</a>
-          <button 
-            onClick={scrollToForm}
-            className="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold w-full text-center"
-          >
-            Lista de Espera
-          </button>
+          
+          <div className="pt-4 border-t border-gray-100 flex flex-col gap-3">
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="w-full text-center text-gray-600 py-2 border border-gray-200 rounded-lg">
+                  Entrar
+                </button>
+              </SignInButton>
+              <button 
+                onClick={() => { scrollToForm(); setIsMenuOpen(false); }}
+                className="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold w-full text-center"
+              >
+                Lista de Espera
+              </button>
+            </SignedOut>
+
+            <SignedIn>
+               <Link 
+                href="/dashboard"
+                className="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold w-full text-center"
+              >
+                Ir para Dashboard
+              </Link>
+            </SignedIn>
+          </div>
         </div>
       )}
     </nav>
